@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+</head>
+<body>
+<div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <form th:action="@{/candidateProfiles/save}" th:object="${user}" method="post" id="candidateProfile" style="max-width: 350px; margin: 0 auto;">
+
+        <div class="border border-secondary p-3 rounded">
+            <h1 th:text="${user.username}"></h1>
+            <p>
+                <input type="hidden" th:field="*{username}"/>
+            </p>
+            <h2>Previous Experience</h2>
+            <p>
+                <input type="text" th:field="*{previousExperience}" class="form-control" placeholder="Previous Experience" required />
+            </p>
+            <h2>Technology Focus</h2>
+            <p>
+                <select th:field="*{technologyFocus}">
+                    <option th:each="technologyFocus : ${T(JobBoard.model.CandidateProfile.TechnologyFocus).values()}"
+                            th:value="${technologyFocus}"
+                            th:text="${technologyFocus}">
+                    </option>
+                </select>
+            </p>
+
+            <h2>Technologies</h2>
+            <table>
+                <tr th:each="technology,rowStat : ${user.technologies}">
+                    <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
+                    <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
+                    <td><input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" /></td>
+                    <td>
+                        <select th:field="${user.technologies[__${rowStat.index}__].level}">
+                            <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"
+                                    th:value="${level}"
+                                    th:text="${level}">
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <form th:action="@{/addTechnology}" th:object="${technology}" method="post" id="tech" style="max-width: 350px; margin: 0 auto;">
+        <input type="hidden" th:field="*{candidateProfile.username}"/>
+        <table>
+            <td><input type="text" th:field="*{technologyName}" class="form-control" placeholder="Technology Name"/></td>
+            <td><select th:field="*{level}">
+                <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"
+                        th:value="${level}"
+                        th:text="${level}">
+                </option>
+            </select></td>
+        </table>
+        <input type="submit" value="Add Technology" class="btn btn-primary" />
+    </form>
+    <div style="max-width: 350px; margin: 0 auto;">
+        <input type="submit" form="candidateProfile" value="Save" class="btn btn-primary" />
+    </div>
+</div>
+
+</body>
+</html>
