@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin</title>
+</head>
+<body>
+<div th:fragment="admin">
+  <a th:href="@{/jobOffers}" class="btn btn-primary">
+    Job Offers
+  </a>
+  <a th:href="@{/addJobOffer}" class="btn btn-primary">
+    Add Job Offer
+  </a>
+  <a th:href="@{/logout}" class="btn btn-primary">
+    Logout
+  </a>
+
+</div>
+</body>
+</html>

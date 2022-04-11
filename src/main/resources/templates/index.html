@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Spring Boot Application</title>
 </head>
 <body>
-<h4>Welcome to Job Board web application</h4>
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="adminView :: admin"></div>
+</div>
+
+<div sec:authorize="hasRole('ROLE_USER')">
+    <div th:insert="userView :: candidate"></div>
+</div>
 </body>
 </html>

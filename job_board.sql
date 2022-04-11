@@ -69,6 +69,57 @@ CREATE TABLE `candidate_technology` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `job_offer`
+--
+
+DROP TABLE IF EXISTS `job_offer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `job_offer` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) DEFAULT NULL,
+  `company_name` varchar(50) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `technology_profile` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `job_requirement`
+--
+
+DROP TABLE IF EXISTS `job_requirement`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `job_requirement` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `requirement` varchar(50) DEFAULT NULL,
+  `job_offer_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_job_requirement_1_idx` (`job_offer_id`),
+  CONSTRAINT `fk_job_requirement_1` FOREIGN KEY (`job_offer_id`) REFERENCES `job_offer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `job_technology`
+--
+
+DROP TABLE IF EXISTS `job_technology`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `job_technology` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `technology` varchar(50) DEFAULT NULL,
+  `job_offer_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_job_technology_1_idx` (`job_offer_id`),
+  CONSTRAINT `fk_job_technology_1` FOREIGN KEY (`job_offer_id`) REFERENCES `job_offer` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `users`
 --
 
