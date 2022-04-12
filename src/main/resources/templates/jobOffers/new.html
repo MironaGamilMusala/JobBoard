@@ -14,29 +14,11 @@
         <div class="border border-secondary p-3 rounded">
 
             <h1>New Job</h1>
-            <p>
-                <input type="hidden" th:field="${jobOffer.id}">
-            </p>
-            <h2>Title</h2>
-            <p>
-                <input type="text" class="form-control"  th:field="${jobOffer.title}" placeholder="Job Title" >
-            </p>
-            <h2>Company Name</h2>
-            <p>
-                <input type="text" class="form-control"  th:field="${jobOffer.companyName}" placeholder="Company Name" >
-            </p>
-            <h2>Description</h2>
-            <p>
-                <input type="text" class="form-control" th:field="${jobOffer.description}" placeholder="Description">
-            </p>
-            <h2>Technology Profile</h2>
-            <p>
-                <input type="text" class="form-control" th:field="${jobOffer.technologyProfile}" placeholder="Technology Profile">
-            </p>
+            <div th:insert="jobOffers/info :: jobOfferInfo"></div>
             <div class="dynamic-update-requirements">
                 <h2>Requirements</h2>
                 <button type="button" name="addJobRequirement" class="btn btn-sm"
-                        data-dynamic-update-requirements-url="/addJobRequirement">
+                        data-dynamic-update-requirements-url="/addJobRequirement/new">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -45,6 +27,7 @@
 
                 <tbody id="dynamicRequirements">
                 <tr th:fragment="requirements" th:each="requirement,rowStat : ${jobOffer.requirements}">
+
                     <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].id}">
                     <td>
                         <input class="form-control" th:field="${jobOffer.requirements[__${rowStat.index}__].requirement}"/>
@@ -54,7 +37,7 @@
                         <div class="btn-group">
                             <button type="button" name="removeDynamicRow"
                                     th:value="${rowStat.index}" class="btn btn-sm btn-danger"
-                                    data-dynamic-update-requirements-url="/removeJobRequirement">
+                                    data-dynamic-update-requirements-url="/removeJobRequirements/new">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -66,7 +49,7 @@
             <div class="dynamic-update-technologies">
                 <h2>Technologies</h2>
                 <button type="button" name="addJobTechnology" class="btn btn-sm"
-                        data-dynamic-update-technologies-url="/addJobTechnology">
+                        data-dynamic-update-technologies-url="/addJobTechnology/new">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -76,7 +59,8 @@
                 <tbody id="dynamicTechnologies">
                 <tr th:fragment="technologies" th:each="technology,rowStat : ${jobOffer.technologies}">
 
-                    <td><input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
+                    <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
+                    <td>
                         <input class="form-control" th:field="${jobOffer.technologies[__${rowStat.index}__].technology}"/>
                     </td>
 
@@ -84,7 +68,7 @@
                         <div class="btn-group">
                             <button type="button" name="removeDynamicRow"
                                     th:value="${rowStat.index}" class="btn btn-sm btn-danger"
-                                    data-dynamic-update-technologies-url="/removeJobTechnology">
+                                    data-dynamic-update-technologies-url="/removeJobTechnology/new">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>

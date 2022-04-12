@@ -42,31 +42,31 @@ public class JobOfferController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/addJobRequirement")
-    public String addJobRequirement(JobOffer jobOffer) {
+    @PostMapping("/addJobRequirement/{operation}")
+    public String addJobRequirement(@ModelAttribute("jobOffer") JobOffer jobOffer, @PathVariable("operation") String operation) {
          jobOfferService.addJobRequirement(jobOffer);
-        return "jobOffers/new :: requirements";
+        return "jobOffers/" + operation + " :: requirements";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/removeJobRequirement")
-    public String removeJobRequirement(JobOffer jobOffer, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+    @PostMapping("/removeJobRequirement/{operation}")
+    public String removeJobRequirement(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobRequirement(jobOffer, requirementIndex);
-        return "jobOffers/new :: requirements";
+        return "jobOffers/" + operation + " :: requirements";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/addJobTechnology")
-    public String addJobTechnology(JobOffer jobOffer) {
+    @PostMapping("/addJobTechnology/{operation}")
+    public String addJobTechnology(JobOffer jobOffer, @PathVariable("operation") String operation) {
         jobOfferService.addJobTechnology(jobOffer);
-        return "jobOffers/new :: technologies";
+        return "jobOffers/" + operation +" :: technologies";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/removeJobTechnology")
-    public String removeJobTechnology(JobOffer jobOffer, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+    @PostMapping("/removeJobTechnology/{operation}")
+    public String removeJobTechnology(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobTechnology(jobOffer, requirementIndex);
-        return "jobOffers/new :: technologies";
+        return "jobOffers/" + operation + " :: technologies";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -25,7 +25,9 @@ public class JobOfferService {
     }
 
     public void addJobRequirement(JobOffer jobOffer) {
-        jobOffer.getRequirements().add(new JobRequirement());
+        JobRequirement jobRequirement = new JobRequirement();
+        jobRequirement.setJobOffer(jobOffer);
+        jobOffer.getRequirements().add(jobRequirement);
     }
 
     public void removeJobRequirement(JobOffer jobOffer, Integer requirementIndex) {
@@ -33,7 +35,9 @@ public class JobOfferService {
     }
 
     public void addJobTechnology(JobOffer jobOffer) {
-        jobOffer.getTechnologies().add(new JobTechnology());
+        JobTechnology jobTechnology = new JobTechnology();
+        jobTechnology.setJobOffer(jobOffer);
+        jobOffer.getTechnologies().add(jobTechnology);
     }
 
     public void removeJobTechnology(JobOffer jobOffer, Integer requirementIndex) {

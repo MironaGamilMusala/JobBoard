@@ -26,12 +26,11 @@ public class JobOffer {
     @Column(name="technology_profile")
     private String technologyProfile;
 
-    @Valid
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
     private List<JobRequirement> requirements = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
     private List<JobTechnology> technologies = new ArrayList<>();
 
@@ -81,12 +80,6 @@ public class JobOffer {
 
     public void setRequirements(List<JobRequirement> requirements) {
         this.requirements = requirements;
-    }
-
-    public void addRequirements(JobRequirement jobRequirement){
-        if(requirements == null)
-            requirements = new ArrayList<>();
-        requirements.add(jobRequirement);
     }
 
     public List<JobTechnology> getTechnologies() {

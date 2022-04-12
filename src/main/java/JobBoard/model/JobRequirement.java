@@ -1,7 +1,6 @@
 package JobBoard.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="job_requirement")
@@ -42,3 +41,4 @@ public class JobRequirement {
         this.jobOffer = jobOffer;
     }
 }
+
