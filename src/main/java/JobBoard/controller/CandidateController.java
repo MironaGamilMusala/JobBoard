@@ -4,63 +4,67 @@ import JobBoard.model.CandidateProfile;
 import JobBoard.model.CandidateTechnology;
 import JobBoard.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@RestController
+@Controller
 public class CandidateController {
 
     @Autowired
     CandidateService candidateService;
 
     @GetMapping("/login")
-    public ModelAndView login(){
-        return new ModelAndView("login");
+    public String login(){
+        return "users/login";
     }
 
     @GetMapping("/signup")
-    public ModelAndView signup(){
-        return new ModelAndView("signup");
+    public String signup(){
+        return "users/signup";
     }
 
     @PostMapping("/signup")
-    public void signup(@ModelAttribute("username") String username, @ModelAttribute("password") String password){
+    public String signup(@ModelAttribute("username") String username, @ModelAttribute("password") String password){
         candidateService.SaveCandidate(username, password);
+        return "redirect:/";
     }
 
     @GetMapping("/candidateProfiles/{username}")
-    public ModelAndView viewProfile(@PathVariable("username") String username){
-        Map<String, Object> model = new HashMap<>();
+    public String viewProfile(@PathVariable("username") String username, Model model){
+
         CandidateProfile candidateProfile = candidateService.getCandidateByUsername(username);
-        model.put("user", candidateProfile);
-        return new ModelAndView("userProfile", model);
+        model.addAttribute("user", candidateProfile);
+        return "users/view";
     }
 
+    @PreAuthorize("#username == authentication.name")
     @GetMapping("/candidateProfiles/{username}/edit")
-    public ModelAndView editProfile(@PathVariable("username") String username){
-        Map<String, Object> model = new HashMap<>();
+    public String editProfile(@PathVariable("username") String username, Model model){
         CandidateProfile candidateProfile = candidateService.getCandidateByUsername(username);
         CandidateTechnology candidateTechnology = new CandidateTechnology();
         candidateTechnology.setCandidateProfile(candidateProfile);
-        model.put("user", candidateProfile);
-        model.put("technology", candidateTechnology);
-        return new ModelAndView("editUserProfile", model);
+        model.addAttribute("user", candidateProfile);
+        model.addAttribute("technology", candidateTechnology);
+        return "users/edit";
     }
 
     @PostMapping("/candidateProfiles/save")
-    public ModelAndView updateProfile(@ModelAttribute("user") CandidateProfile candidateProfile){
+    public String updateProfile(@ModelAttribute("user") CandidateProfile candidateProfile){
         candidateService.updateUserProfile(candidateProfile);
-        return new ModelAndView("redirect:/candidateProfiles/"+ candidateProfile.getUsername());
+        return "redirect:/candidateProfiles/"+ candidateProfile.getUsername();
     }
 
-    @PostMapping("/addTechnology")
-    public ModelAndView addTechnologyToUser(@ModelAttribute("technology") CandidateTechnology candidateTechnology){
-        candidateService.addTechnologyToUser(candidateTechnology);
-        return new ModelAndView("redirect:/candidateProfiles/"+ candidateTechnology.getCandidateProfile().getUsername()+"/edit");
+    @PostMapping("/addCandidateTechnology")
+    public String addCandidateTechnology(@ModelAttribute("user") CandidateProfile candidateProfile) {
+        candidateService.addCandidateTechnology(candidateProfile);
+        return "users/edit :: technologies";
     }
 
-
+    @PostMapping("/removeCandidateTechnology")
+    public String removeCandidateTechnology(@ModelAttribute("user") CandidateProfile candidateProfile, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+        candidateService.removeCandidateTechnology(candidateProfile, requirementIndex);
+        return "users/edit :: technologies";
+    }
 }

@@ -34,8 +34,8 @@ public class CandidateProfile {
     @Enumerated(EnumType.ORDINAL)
     private TechnologyFocus technologyFocus;
 
-    @OneToMany(mappedBy="candidateProfile", cascade = CascadeType.ALL)
-    private List<CandidateTechnology> technologies;
+    @OneToMany(mappedBy="candidateProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CandidateTechnology> technologies = new ArrayList<>();
 
     public String getUsername() {
         return username;

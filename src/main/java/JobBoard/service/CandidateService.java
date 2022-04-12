@@ -36,8 +36,14 @@ public class CandidateService {
         candidateProfileRepository.save(candidateProfile);
     }
 
-    public void addTechnologyToUser(CandidateTechnology candidateTechnology){
-        candidateTechnologyRepository.save(candidateTechnology);
+    public void addCandidateTechnology(CandidateProfile candidateProfile) {
+        CandidateTechnology candidateTechnology = new CandidateTechnology();
+        candidateTechnology.setCandidateProfile(candidateProfile);
+        candidateProfile.getTechnologies().add(candidateTechnology);
+    }
+
+    public void removeCandidateTechnology(CandidateProfile candidateProfile, Integer requirementIndex) {
+        candidateProfile.getTechnologies().remove(requirementIndex.intValue());
     }
 
 }

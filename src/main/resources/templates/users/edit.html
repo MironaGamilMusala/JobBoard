@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit</title>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
 </head>
 <body>
 <div>
@@ -29,9 +30,19 @@
                 </select>
             </p>
 
-            <h2>Technologies</h2>
-            <table>
-                <tr th:each="technology,rowStat : ${user.technologies}">
+            <div class="dynamic-update-technologies">
+                <h2>Technologies</h2>
+                <button type="button" name="addTechnology" class="btn btn-sm"
+                        data-dynamic-update-technologies-url="/addCandidateTechnology">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+
+            <table class="table dynamic-update-technologies" style="width: 100%">
+
+                <tbody id="dynamicTechnologies">
+                <tr th:fragment="technologies" th:each="technology,rowStat : ${user.technologies}">
+
                     <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
                     <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
                     <td><input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" /></td>
@@ -43,27 +54,26 @@
                             </option>
                         </select>
                     </td>
+
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" name="removeDynamicRow"
+                                    th:value="${rowStat.index}" class="btn btn-sm btn-danger"
+                                    data-dynamic-update-technologies-url="/removeCandidateTechnology">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
+                </tbody>
             </table>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+
         </div>
     </form>
-    <form th:action="@{/addTechnology}" th:object="${technology}" method="post" id="tech" style="max-width: 350px; margin: 0 auto;">
-        <input type="hidden" th:field="*{candidateProfile.username}"/>
-        <table>
-            <td><input type="text" th:field="*{technologyName}" class="form-control" placeholder="Technology Name"/></td>
-            <td><select th:field="*{level}">
-                <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"
-                        th:value="${level}"
-                        th:text="${level}">
-                </option>
-            </select></td>
-        </table>
-        <input type="submit" value="Add Technology" class="btn btn-primary" />
-    </form>
-    <div style="max-width: 350px; margin: 0 auto;">
-        <input type="submit" form="candidateProfile" value="Save" class="btn btn-primary" />
-    </div>
 </div>
-
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>

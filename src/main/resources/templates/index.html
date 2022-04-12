@@ -4,12 +4,21 @@
     <title>Spring Boot Application</title>
 </head>
 <body>
+
+<div sec:authorize="isAnonymous()">
+    <div>
+        <a th:href="@{/jobOffers/all}" class="btn btn-primary">
+            Job Offers
+        </a>
+    </div>
+</div>
+
 <div sec:authorize="hasAuthority('ADMIN')">
-    <div th:insert="adminView :: admin"></div>
+    <div th:insert="users/adminView :: admin"></div>
 </div>
 
 <div sec:authorize="hasRole('ROLE_USER')">
-    <div th:insert="userView :: candidate"></div>
+    <div th:insert="users/userView :: candidate"></div>
 </div>
 </body>
 </html>
