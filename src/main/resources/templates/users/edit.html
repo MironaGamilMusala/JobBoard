@@ -4,71 +4,83 @@
     <meta charset="UTF-8">
     <title>Edit Profile</title>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
-<div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <form th:action="@{/candidateProfiles/save}" th:object="${user}" method="post" id="candidateProfile" style="max-width: 350px; margin: 0 auto;">
+<div class="container">
+    <form th:action="@{/candidateProfiles/save}" th:object="${user}" method="post" id="candidateProfile">
 
         <div class="border border-secondary p-3 rounded">
-            <h1 th:text="${user.username}"></h1>
-            <p>
-                <input type="hidden" th:field="*{username}"/>
-            </p>
-            <h2>Previous Experience</h2>
-            <p>
-                <input type="text" th:field="*{previousExperience}" class="form-control" placeholder="Previous Experience" required />
-            </p>
-            <h2>Technology Focus</h2>
-            <p>
-                <select th:field="*{technologyFocus}">
-                    <option th:each="technologyFocus : ${T(JobBoard.model.CandidateProfile.TechnologyFocus).values()}"
-                            th:value="${technologyFocus}"
-                            th:text="${technologyFocus}">
-                    </option>
-                </select>
-            </p>
-
-            <div class="dynamic-update-technologies">
-                <h2>Technologies</h2>
-                <button type="button" name="addTechnology" class="btn btn-sm"
-                        data-dynamic-update-technologies-url="/addCandidateTechnology">
-                    <i class="fas fa-plus"></i>
-                </button>
-            </div>
-
-            <table class="table dynamic-update-technologies" style="width: 100%">
-
-                <tbody id="dynamicTechnologies">
-                <tr th:fragment="technologies" th:each="technology,rowStat : ${user.technologies}">
-
-                    <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
-                    <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
-                    <td><input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" /></td>
-                    <td>
-                        <select th:field="${user.technologies[__${rowStat.index}__].level}">
-                            <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"
-                                    th:value="${level}"
-                                    th:text="${level}">
-                            </option>
-                        </select>
-                    </td>
-
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" name="removeDynamicRow"
-                                    th:value="${rowStat.index}" class="btn btn-sm btn-danger"
-                                    data-dynamic-update-technologies-url="/removeCandidateTechnology">
-                                <i class="fas fa-trash"></i>
-                            </button>
+            <div class="card">
+                <div class="card-header">
+                    <h4 style="display:inline-block" th:text="${user.username}"></h4>
+                    <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
+                </div>
+                <div class="card-header">
+                    <div>
+                        <input type="hidden" th:field="*{username}"/>
+                    </div>
+                    <div>
+                        <label style="margin-left:20px">Previous Experience</label>
+                        <div class="col-md-12">
+                            <input type="text" th:field="*{previousExperience}" class="form-control" placeholder="Previous Experience" required />
                         </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </div>
+                    <div>
+                        <label style="margin-left:20px">Technology Focus</label>
+                        <div class="col-md-12">
+                            <select th:field="*{technologyFocus}">
+                                <option th:each="technologyFocus : ${T(JobBoard.model.CandidateProfile.TechnologyFocus).values()}"
+                                        th:value="${technologyFocus}"
+                                        th:text="${technologyFocus}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header dynamic-update-technologies">
+                    Technologies
+                    <button type="button" name="addTechnology" class="btn btn-sm btn-success float-right"
+                            data-dynamic-update-technologies-url="/addCandidateTechnology">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="card-body">
 
-            <input type="submit" value="Save" class="btn btn-primary" />
+                    <table class="table dynamic-update-technologies" style="width: 100%">
+
+                        <tbody id="dynamicTechnologies">
+                        <tr th:fragment="technologies" th:each="technology,rowStat : ${user.technologies}">
+
+                            <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
+                            <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
+                            <td><input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" /></td>
+                            <td>
+                                <select th:field="${user.technologies[__${rowStat.index}__].level}">
+                                    <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"
+                                            th:value="${level}"
+                                            th:text="${level}">
+                                    </option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" name="removeDynamicRow"
+                                            th:value="${rowStat.index}" class="btn btn-sm btn-danger"
+                                            data-dynamic-update-technologies-url="/removeCandidateTechnology">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary btn-block" />
 
         </div>
     </form>

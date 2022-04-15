@@ -3,44 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>View</title>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
-    <div th:object="${user}" style="max-width: 350px; margin: 0 auto;">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <div class="container" th:object="${user}">
         <div class="card">
-            <h1 th:text="${user.username}"></h1>
-            <h2>Previous Experience</h2>
-            <p class="title" th:text="${user.previousExperience}"></p>
-            <h2>Technology Focus</h2>
-            <p class="title" th:text="${user.technologyFocus}"></p>
-            <h2>Previous Technologies</h2>
+            <div class="card-header">
+                <h4 style="font-weight:bold;display:inline-block" th:text="${user.username}"></h4>
+                <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Technology</th>
-                        <th>Level</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="technology: ${user.technologies}">
-                        <td class="title" th:text="${technology.technologyName}"></td>
-                        <td class="title" th:text="${technology.level}"></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div th:with="loggedUser=${#authentication.name}, showedUser=${user.username}">
-                <div th:if="${loggedUser == showedUser}">
-                    <a th:href="@{/candidateProfiles/{username}/edit(username=${loggedUser})}" class="btn btn-primary">
-                        Edit
-                    </a>
+                <div style="display:inline-block;float:right"
+                     th:with="loggedUser=${#authentication.name}, showedUser=${user.username}">
+                    <div th:if="${loggedUser == showedUser}">
+                        <a th:href="@{/candidateProfiles/{username}/edit(username=${loggedUser})}"
+                           class="btn btn-sm btn-primary mr-3">
+                            Edit
+                        </a>
+                    </div>
                 </div>
+
+            </div>
+            <div class="card-body">
+                <h5>Previous Experience</h5>
+                <p class="title" th:text="${user.previousExperience}"></p>
+                <h5>Technology Focus</h5>
+                <p class="title" th:text="${user.technologyFocus}"></p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h5>Previous Technologies</h5>
+            </div>
+            <div class="card-body">
+
+                <table class="table table-condensed table-hover table-responsive-sm  table_morecondensed width=80%">
+                    <thead>
+                        <tr>
+                            <th>Technology</th>
+                            <th>Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="technology: ${user.technologies}">
+                            <td class="title" th:text="${technology.technologyName}"></td>
+                            <td class="title" th:text="${technology.level}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
     </div>
+    <style>
+    h5{
+        font-weight:bold;
+    }
+    </style>
 
 </body>
 </html>

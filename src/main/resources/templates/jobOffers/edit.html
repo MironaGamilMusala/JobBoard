@@ -4,80 +4,90 @@
     <meta charset="UTF-8">
     <title>Edit Job Offer</title>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
-<div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <form th:action="@{/editJobOffer}" th:object="${jobOffer}" method="post" name="jobOfferForm" id="jobOfferForm" style="max-width: 350px; margin: 0 auto;">
+<div class="container">
+    <form th:action="@{/editJobOffer}" th:object="${jobOffer}" method="post"
+          name="jobOfferForm" id="jobOfferForm">
 
 
         <div class="border border-secondary p-3 rounded">
-
-            <h1>Edit Job</h1>
-            <div th:insert="jobOffers/info :: jobOfferInfo"></div>
-            <div class="dynamic-update-requirements">
-                <h2>Requirements</h2>
-                <button type="button" name="addJobRequirement" class="btn btn-sm"
-                        data-dynamic-update-requirements-url="/addJobRequirement/edit">
-                    <i class="fas fa-plus"></i>
-                </button>
+            <div class="card">
+                <div class="card-header">
+                    Edit Job Offer
+                    <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
+                </div>
+                <div class="card-body">
+                    <div th:insert="jobOffers/info :: jobOfferInfo"></div>
+                </div>
             </div>
+            <div class="card">
+                <div class="card-header dynamic-update-requirements">
+                    Requirements
+                    <button type="button" name="addJobRequirement" class="btn btn-sm btn-success float-right"
+                            data-dynamic-update-requirements-url="/addJobRequirement/edit">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
 
-            <table class="table dynamic-update-requirements" style="width: 100%">
+                <table class="table dynamic-update-requirements" style="width: 100%">
 
-                <tbody id="dynamicRequirements">
-                <tr th:fragment="requirements" th:each="requirement,rowStat : ${jobOffer.requirements}">
+                    <tbody id="dynamicRequirements">
+                    <tr th:fragment="requirements" th:each="requirement,rowStat : ${jobOffer.requirements}">
 
-                    <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].id}">
-                    <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].jobOffer.id}">
-                    <td>
-                        <input class="form-control" th:field="${jobOffer.requirements[__${rowStat.index}__].requirement}"/>
-                    </td>
+                        <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].id}">
+                        <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].jobOffer.id}">
+                        <td>
+                            <input class="form-control" th:field="${jobOffer.requirements[__${rowStat.index}__].requirement}"/>
+                        </td>
 
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" name="removeDynamicRow"
-                                    th:value="${rowStat.index}" class="btn btn-sm btn-danger"
-                                    data-dynamic-update-requirements-url="/removeJobRequirement/edit">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-            <div class="dynamic-update-technologies">
-                <h2>Technologies</h2>
-                <button type="button" name="addJobTechnology" class="btn btn-sm"
-                        data-dynamic-update-technologies-url="/addJobTechnology/edit">
-                    <i class="fas fa-plus"></i>
-                </button>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" name="removeDynamicRow"
+                                        th:value="${rowStat.index}" class="btn btn-sm btn-danger"
+                                        data-dynamic-update-requirements-url="/removeJobRequirement/edit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+            <div class="card">
+                <div class="card-header dynamic-update-technologies">
+                    Technologies
+                    <button type="button" name="addJobTechnology" class="btn btn-sm btn-success float-right"
+                            data-dynamic-update-technologies-url="/addJobTechnology/edit">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
 
-            <table class="table dynamic-update-technologies" style="width: 100%">
+                <table class="table dynamic-update-technologies" style="width: 100%">
 
-                <tbody id="dynamicTechnologies">
-                <tr th:fragment="technologies" th:each="technology,rowStat : ${jobOffer.technologies}">
+                    <tbody id="dynamicTechnologies">
+                    <tr th:fragment="technologies" th:each="technology,rowStat : ${jobOffer.technologies}">
 
-                    <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
-                    <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].jobOffer.id}">
-                    <td>
-                        <input class="form-control" th:field="${jobOffer.technologies[__${rowStat.index}__].technology}"/>
-                    </td>
+                        <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
+                        <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].jobOffer.id}">
+                        <td>
+                            <input class="form-control" th:field="${jobOffer.technologies[__${rowStat.index}__].technology}"/>
+                        </td>
 
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" name="removeDynamicRow"
-                                    th:value="${rowStat.index}" class="btn btn-sm btn-danger"
-                                    data-dynamic-update-technologies-url="/removeJobTechnology/edit">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" name="removeDynamicRow"
+                                        th:value="${rowStat.index}" class="btn btn-sm btn-danger"
+                                        data-dynamic-update-technologies-url="/removeJobTechnology/edit">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Save Job Offer</button>
         </div>
     </form>

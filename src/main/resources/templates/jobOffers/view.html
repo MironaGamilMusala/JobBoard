@@ -3,40 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Job Offer</title>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
-<div th:object="${jobOffer}" style="max-width: 350px; margin: 0 auto;">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="container" th:object="${jobOffer}">
 
     <div class="card">
+        <div class="card-header">
+            <h4 style="font-weight:bold;display:inline-block" th:text="${jobOffer.title}"></h4>
+            <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
+        </div>
+        <div class="card-body">
+            <h5>Company</h5>
+            <p class="title" th:text="${jobOffer.companyName}"></p>
+            <h5>Technology Profile</h5>
+            <p class="title" th:text="${jobOffer.technologyProfile}"></p>
+            <h5>Description</h5>
+            <p class="title" th:text="${jobOffer.description}"></p>
+        </div>
 
-        <h2>Title</h2>
-        <p class="title" th:text="${jobOffer.title}"></p>
-        <h2>Company</h2>
-        <p class="title" th:text="${jobOffer.companyName}"></p>
-        <h2>Technology Profile</h2>
-        <p class="title" th:text="${jobOffer.technologyProfile}"></p>
-        <h2>Description</h2>
-        <p class="title" th:text="${jobOffer.description}"></p>
-        <h2>Requirements</h2>
+        <div class="card">
+            <div class="card-header">
+                <h5>Requirements</h5>
+            </div>
+            <div class="card-body">
+                <ul th:each="requirement: ${jobOffer.requirements}">
+                    <li th:text="${requirement.requirement}"></li>
+                </ul>
+            </div>
+        </div>
 
-        <ul th:each="requirement: ${jobOffer.requirements}">
-            <li th:text="${requirement.requirement}"></li>
-        </ul>
-        <h2>Required Technologies</h2>
-        <ul th:each="technology: ${jobOffer.technologies}">
-            <li th:text="${technology.technology}"></li>
-        </ul>
+        <div class="card">
+            <div class="card-header">
+                <h5>Required Technologies</h5>
+            </div>
+            <div class="card-body">
+                <ul th:each="technology: ${jobOffer.technologies}">
+                    <li th:text="${technology.technology}"></li>
+                </ul>
+            </div>
+        </div>
 
         <div sec:authorize="hasAuthority('ADMIN')">
-            <a th:href="@{/jobOffers/{id}/edit(id=${jobOffer.id})}" class="btn btn-primary">
+            <a th:href="@{/jobOffers/{id}/edit(id=${jobOffer.id})}" class="btn btn-primary btn-block">
                 Edit
             </a>
-            <a th:href="@{/jobOffers/{id}/delete(id=${jobOffer.id})}" class="btn btn-primary">
+            <a th:href="@{/jobOffers/{id}/delete(id=${jobOffer.id})}" class="btn btn-primary btn-block">
                 Delete
             </a>
         </div>
     </div>
 </div>
+<style>
+    h5{
+        font-weight:bold;
+    }
+</style>
 </body>
 </html>

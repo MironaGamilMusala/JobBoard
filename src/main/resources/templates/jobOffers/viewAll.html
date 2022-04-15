@@ -4,17 +4,22 @@
     <meta charset="UTF-8">
     <title>Job Offers</title>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
-<div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <div th:object="${jobOffers}" style="max-width: 350px; margin: 0 auto;">
-        <ul th:each="jobOffer: ${jobOffers}">
-
-            <li>
-                <a th:text="${jobOffer.title}" th:href="@{/jobOffers/{id}(id=${jobOffer.id})}" class="btn btn-primary"></a>
-            </li>
-        </ul>
+<div class="container">
+    <div class="card" th:object="${jobOffers}">
+        <div class="card-header">
+            <h2 style="display:inline-block">Job Offers</h2>
+            <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
+        </div>
+        <div class="card-body">
+            <ul th:each="jobOffer: ${jobOffers}">
+                <li>
+                    <a th:text="${jobOffer.title}" th:href="@{/jobOffers/{id}(id=${jobOffer.id})}"></a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 </body>

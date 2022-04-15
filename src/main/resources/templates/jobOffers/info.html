@@ -2,25 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="jobOfferInfo">
-    <p>
+    <div>
         <input type="hidden" th:field="${jobOffer.id}">
-    </p>
-    <h2>Title</h2>
-    <p>
-        <input type="text" class="form-control"  th:field="${jobOffer.title}" placeholder="Job Title" >
-    </p>
-    <h2>Company Name</h2>
-    <p>
-        <input type="text" class="form-control"  th:field="${jobOffer.companyName}" placeholder="Company Name" >
-    </p>
-    <h2>Description</h2>
-    <p>
-        <input type="text" class="form-control" th:field="${jobOffer.description}" placeholder="Description">
-    </p>
-    <h2>Technology Profile</h2>
-    <p>
-        <input type="text" class="form-control" th:field="${jobOffer.technologyProfile}" placeholder="Technology Profile">
-    </p>
+    </div>
+    <div>
+        <label style="margin-left:20px">Title</label>
+        <div class="col-md-12">
+            <input type="text" class="form-control"  th:field="${jobOffer.title}" placeholder="Job Title" >
+        </div>
+    </div>
+    <div>
+        <label style="margin-left:20px">Company Name</label>
+        <div class="col-md-12" >
+            <input type="text" class="form-control"  th:field="${jobOffer.companyName}" placeholder="Company Name" >
+        </div>
+    </div>
+    <div>
+        <label style="margin-left:20px">Description</label>
+        <div class="col-md-12">
+            <input type="text" class="form-control" th:field="${jobOffer.description}" placeholder="Description">
+        </div>
+    </div>
+
+    <div>
+        <label style="margin-left:20px">Technology Profile</label>
+        <div class="col-md-12" style="margin-bottom:20px">
+            <input type="text" class="form-control" th:field="${jobOffer.technologyProfile}"
+                   placeholder="Technology Profile">
+        </div>
+    </div>
 
 </div>
 </body>

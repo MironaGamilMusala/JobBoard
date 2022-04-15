@@ -1,24 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Boot Application</title>
+    <title>Job Board</title>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{css/index.css}"/>
 </head>
 <body>
+<img src="photos/jobs.jpg" alt="Jobs" width="50%" class="center">
+<h1>Welcome to Job Board</h1>
 
-<div sec:authorize="isAnonymous()">
-    <div>
-        <a th:href="@{/jobOffers/all}" class="btn btn-primary">
-            Job Offers
-        </a>
+<div style="text-align:center">
+    <a th:href="@{/jobOffers/all}">
+        Job Offers
+    </a>
+
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <div th:insert="users/adminView :: admin"></div>
     </div>
-</div>
 
-<div sec:authorize="hasAuthority('ADMIN')">
-    <div th:insert="users/adminView :: admin"></div>
-</div>
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <div th:insert="users/userView :: candidate"></div>
+    </div>
 
-<div sec:authorize="hasRole('ROLE_USER')">
-    <div th:insert="users/userView :: candidate"></div>
+    <div sec:authorize="isAuthenticated()">
+        <div>
+            <a th:href="@{/logout}">
+                Logout
+            </a>
+        </div>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <div>
+            <a th:href="@{/login}">
+                Login
+            </a>
+        </div>
+    </div>
 </div>
 </body>
 </html>
