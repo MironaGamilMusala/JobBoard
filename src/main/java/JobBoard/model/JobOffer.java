@@ -2,6 +2,8 @@ package JobBoard.model;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,25 +16,31 @@ public class JobOffer {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank (message = "Title can not be blank")
     @Column(name="title")
     private String title;
 
+    @NotBlank (message = "Company Name can not be blank")
     @Column(name="company_name")
     private String companyName;
 
+    @NotBlank (message = "Description can not be blank")
     @Column(name="description")
     private String description;
 
+    @NotBlank (message = "Technology Profile can not be blank")
     @Column(name="technology_profile")
     private String technologyProfile;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
-    private List<JobRequirement> requirements = new ArrayList<>();
+    @NotEmpty(message = "Requirements can not be empty")
+    private List<@Valid JobRequirement> requirements = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
-    private List<JobTechnology> technologies = new ArrayList<>();
+    @NotEmpty(message = "Technologies can not be empty")
+    private List<@Valid JobTechnology> technologies = new ArrayList<>();
 
     public int getId() {
         return id;

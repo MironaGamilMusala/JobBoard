@@ -7,6 +7,7 @@ import JobBoard.model.CandidateProfile;
 import JobBoard.model.CandidateTechnology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +21,11 @@ public class CandidateService {
     CandidateProfileRepository candidateProfileRepository;
 
     @Autowired
-    CandidateTechnologyRepository candidateTechnologyRepository;
+    PasswordEncoder passwordEncoder;
 
     public void SaveCandidate(String username, String password){
         jdbcUserDetailsManager.createUser(
-                User.withUsername(username).password("{noop}"+password).roles("USER").build());
+                User.withUsername(username).password(passwordEncoder.encode(password)).roles("USER").build());
         candidateProfileRepository.save(new CandidateProfile(username));
     }
 

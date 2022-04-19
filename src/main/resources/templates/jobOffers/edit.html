@@ -5,10 +5,11 @@
     <title>Edit Job Offer</title>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/error.css}"/>
 </head>
 <body>
 <div class="container">
-    <form th:action="@{/editJobOffer}" th:object="${jobOffer}" method="post"
+    <form th:action="@{/jobOffers/{id}/edit(id=${jobOffer.id})}" th:object="${jobOffer}" method="post"
           name="jobOfferForm" id="jobOfferForm">
 
 
@@ -29,6 +30,7 @@
                             data-dynamic-update-requirements-url="/addJobRequirement/edit">
                         <i class="fas fa-plus"></i>
                     </button>
+                    <p th:if="${#fields.hasErrors('requirements')}" th:errorclass="error" th:errors="*{requirements}" />
                 </div>
 
                 <table class="table dynamic-update-requirements" style="width: 100%">
@@ -40,6 +42,8 @@
                         <input type="hidden" th:field="${jobOffer.requirements[__${rowStat.index}__].jobOffer.id}">
                         <td>
                             <input class="form-control" th:field="${jobOffer.requirements[__${rowStat.index}__].requirement}"/>
+                            <p th:if="${#fields.hasErrors('${jobOffer.requirements[__${rowStat.index}__].requirement}')}" th:errorclass="error"
+                               th:errors="${jobOffer.requirements[__${rowStat.index}__].requirement}" />
                         </td>
 
                         <td>
@@ -62,6 +66,7 @@
                             data-dynamic-update-technologies-url="/addJobTechnology/edit">
                         <i class="fas fa-plus"></i>
                     </button>
+                    <p th:if="${#fields.hasErrors('technologies')}" th:errorclass="error" th:errors="*{technologies}" />
                 </div>
 
                 <table class="table dynamic-update-technologies" style="width: 100%">
@@ -73,6 +78,8 @@
                         <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].jobOffer.id}">
                         <td>
                             <input class="form-control" th:field="${jobOffer.technologies[__${rowStat.index}__].technology}"/>
+                            <p th:if="${#fields.hasErrors('${jobOffer.technologies[__${rowStat.index}__].technology}')}" th:errorclass="error"
+                               th:errors="${jobOffer.technologies[__${rowStat.index}__].technology}" />
                         </td>
 
                         <td>

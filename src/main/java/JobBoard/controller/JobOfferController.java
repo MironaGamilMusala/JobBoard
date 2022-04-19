@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,8 +27,12 @@ public class JobOfferController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/addJobOffer")
-    public String saveJobOffer(@Valid JobOffer jobOffer, Model model) {
+    @PostMapping("/jobOffers/new")
+    public String saveJobOffer(@Valid JobOffer jobOffer, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "jobOffers/new";
+        }
 
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
         model.addAttribute("jobOffer", savedJobOffer);
@@ -77,8 +82,12 @@ public class JobOfferController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/editJobOffer")
-    public String saveEditedJobOffer(JobOffer jobOffer, Model model){
+    @PostMapping("/jobOffers/{id}/edit")
+    public String saveEditedJobOffer(@Valid JobOffer jobOffer, BindingResult result, Model model){
+        if (result.hasErrors()) {
+            return "jobOffers/edit";
+        }
+
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
         model.addAttribute("jobOffer", savedJobOffer);
 

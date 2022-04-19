@@ -9,18 +9,21 @@
         <label style="margin-left:20px">Title</label>
         <div class="col-md-12">
             <input type="text" class="form-control"  th:field="${jobOffer.title}" placeholder="Job Title" >
+            <p th:if="${#fields.hasErrors('title')}" th:errorclass="error" th:errors="*{title}" />
         </div>
     </div>
     <div>
         <label style="margin-left:20px">Company Name</label>
         <div class="col-md-12" >
             <input type="text" class="form-control"  th:field="${jobOffer.companyName}" placeholder="Company Name" >
+            <p th:if="${#fields.hasErrors('companyName')}" th:errorclass="error" th:errors="*{companyName}" />
         </div>
     </div>
     <div>
         <label style="margin-left:20px">Description</label>
         <div class="col-md-12">
             <input type="text" class="form-control" th:field="${jobOffer.description}" placeholder="Description">
+            <p th:if="${#fields.hasErrors('description')}" th:errorclass="error" th:errors="*{description}" />
         </div>
     </div>
 
@@ -29,6 +32,7 @@
         <div class="col-md-12" style="margin-bottom:20px">
             <input type="text" class="form-control" th:field="${jobOffer.technologyProfile}"
                    placeholder="Technology Profile">
+            <p th:if="${#fields.hasErrors('technologyProfile')}" th:errorclass="error" th:errors="*{technologyProfile}" />
         </div>
     </div>
 

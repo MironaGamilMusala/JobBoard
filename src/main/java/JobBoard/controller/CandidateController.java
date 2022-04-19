@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 public class CandidateController {
@@ -50,8 +53,11 @@ public class CandidateController {
         return "users/edit";
     }
 
-    @PostMapping("/candidateProfiles/save")
-    public String updateProfile(@ModelAttribute("user") CandidateProfile candidateProfile){
+    @PostMapping("/candidateProfiles/{username}/edit")
+    public String updateProfile(@Valid @ModelAttribute("user") CandidateProfile candidateProfile, BindingResult result){
+        if (result.hasErrors()) {
+            return "users/edit";
+        }
         candidateService.updateUserProfile(candidateProfile);
         return "redirect:/candidateProfiles/"+ candidateProfile.getUsername();
     }

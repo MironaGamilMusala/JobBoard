@@ -1,0 +1,12 @@
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    vertical-align: middle;
+}
+
+h1 {
+    color: red;
+}

@@ -1,6 +1,8 @@
 package JobBoard.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="job_requirement")
@@ -11,6 +13,7 @@ public class JobRequirement {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Requirement can not be blank")
     @Column(name="requirement")
     private String requirement;
 

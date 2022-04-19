@@ -5,10 +5,12 @@
     <title>Edit Profile</title>
     <link rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/error.css}"/>
 </head>
 <body>
 <div class="container">
-    <form th:action="@{/candidateProfiles/save}" th:object="${user}" method="post" id="candidateProfile">
+    <form th:action="@{/candidateProfiles/{username}/edit(username=${user.username})}"
+          th:object="${user}" method="post" id="candidateProfile">
 
         <div class="border border-secondary p-3 rounded">
             <div class="card">
@@ -56,7 +58,11 @@
 
                             <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
                             <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
-                            <td><input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" /></td>
+                            <td>
+                                <input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" />
+                                <p th:if="${#fields.hasErrors('${user.technologies[__${rowStat.index}__].technologyName}')}" th:errorclass="error"
+                                   th:errors="${user.technologies[__${rowStat.index}__].technologyName}" />
+                            </td>
                             <td>
                                 <select th:field="${user.technologies[__${rowStat.index}__].level}">
                                     <option th:each="level : ${T(JobBoard.model.CandidateTechnology.Level).values()}"

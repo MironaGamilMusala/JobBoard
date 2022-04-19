@@ -1,6 +1,7 @@
 package JobBoard.model;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class CandidateProfile {
     private TechnologyFocus technologyFocus;
 
     @OneToMany(mappedBy="candidateProfile", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CandidateTechnology> technologies = new ArrayList<>();
+    private List<@Valid CandidateTechnology> technologies = new ArrayList<>();
 
     public String getUsername() {
         return username;

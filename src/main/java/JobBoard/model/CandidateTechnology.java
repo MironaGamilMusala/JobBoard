@@ -1,6 +1,7 @@
 package JobBoard.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -16,7 +17,7 @@ public class CandidateTechnology {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Size(min=1)
+    @NotBlank(message = "Technology can not be blank")
     @Column(name="technology_name")
     private String technologyName;
 
