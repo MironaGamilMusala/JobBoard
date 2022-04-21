@@ -2,6 +2,7 @@ package JobBoard.controller;
 
 import JobBoard.model.CandidateProfile;
 import JobBoard.model.CandidateTechnology;
+import JobBoard.model.JobOffer;
 import JobBoard.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -72,5 +73,11 @@ public class CandidateController {
     public String removeCandidateTechnology(@ModelAttribute("user") CandidateProfile candidateProfile, @RequestParam("removeDynamicRow") Integer requirementIndex) {
         candidateService.removeCandidateTechnology(candidateProfile, requirementIndex);
         return "users/edit :: technologies";
+    }
+
+    @PostMapping("/applyForJob")
+    public String applyForJob(@RequestParam(value = "jobOfferId") int jobOfferId, @RequestParam(value = "username") String username){
+        candidateService.addAppliedJob(jobOfferId, username);
+        return "redirect:/candidateProfiles/"+ username;
     }
 }

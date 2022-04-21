@@ -5,6 +5,7 @@ import JobBoard.Repository.CandidateProfileRepository;
 import JobBoard.Repository.CandidateTechnologyRepository;
 import JobBoard.model.CandidateProfile;
 import JobBoard.model.CandidateTechnology;
+import JobBoard.model.JobOffer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,9 @@ public class CandidateService {
     CandidateProfileRepository candidateProfileRepository;
 
     @Autowired
+    JobOfferService jobOfferService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     public void SaveCandidate(String username, String password){
@@ -33,8 +37,8 @@ public class CandidateService {
         return candidateProfileRepository.findByUsername(username);
     }
 
-    public void updateUserProfile(CandidateProfile candidateProfile){
-        candidateProfileRepository.save(candidateProfile);
+    public CandidateProfile updateUserProfile(CandidateProfile candidateProfile){
+        return candidateProfileRepository.save(candidateProfile);
     }
 
     public void addCandidateTechnology(CandidateProfile candidateProfile) {
@@ -45,6 +49,13 @@ public class CandidateService {
 
     public void removeCandidateTechnology(CandidateProfile candidateProfile, Integer requirementIndex) {
         candidateProfile.getTechnologies().remove(requirementIndex.intValue());
+    }
+
+    public void addAppliedJob(int jobOfferId, String username){
+        CandidateProfile candidateProfile = getCandidateByUsername(username);
+        JobOffer jobOffer = jobOfferService.getJobOffer(jobOfferId);
+        candidateProfile.getAppliedJobs().add(jobOffer);
+        candidateProfileRepository.save(candidateProfile);
     }
 
 }

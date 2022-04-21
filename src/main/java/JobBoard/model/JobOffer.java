@@ -42,6 +42,24 @@ public class JobOffer {
     @NotEmpty(message = "Technologies can not be empty")
     private List<@Valid JobTechnology> technologies = new ArrayList<>();
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinTable(name = "job_candidate", joinColumns = @JoinColumn(name="job_offer_id"),
+            inverseJoinColumns = @JoinColumn(name="username"))
+    private List<CandidateProfile> appliedCandidates = new ArrayList<>();
+
+    public JobOffer() {
+    }
+
+    public JobOffer(String title, String companyName, String description, String technologyProfile,
+                    List<@Valid JobRequirement> requirements, List<@Valid JobTechnology> technologies) {
+        this.title = title;
+        this.companyName = companyName;
+        this.description = description;
+        this.technologyProfile = technologyProfile;
+        this.requirements = requirements;
+        this.technologies = technologies;
+    }
+
     public int getId() {
         return id;
     }
@@ -96,5 +114,13 @@ public class JobOffer {
 
     public void setTechnologies(List<JobTechnology> technologies) {
         this.technologies = technologies;
+    }
+
+    public List<CandidateProfile> getAppliedCandidates() {
+        return appliedCandidates;
+    }
+
+    public void setAppliedCandidates(List<CandidateProfile> appliedCandidates) {
+        this.appliedCandidates = appliedCandidates;
     }
 }

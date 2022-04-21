@@ -54,6 +54,22 @@
             </div>
         </div>
 
+        <div th:with="loggedUser=${#authentication.name}, showedUser=${user.username}">
+            <div class="card" th:if="${loggedUser == showedUser}">
+                <div class="card-header">
+                    <h5>Applied Jobs</h5>
+                </div>
+                <div class="card-body">
+                    <ul th:each="jobOffer: ${user.appliedJobs}">
+                        <li>
+                            <a th:text="${jobOffer.title}" th:href="@{/jobOffers/{id}(id=${jobOffer.id})}"></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
     </div>
     <style>
     h5{

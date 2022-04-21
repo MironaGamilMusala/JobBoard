@@ -1,15 +1,18 @@
 package JobBoard.controller;
 
 import JobBoard.model.*;
+import JobBoard.service.CandidateService;
 import JobBoard.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,6 +20,9 @@ public class JobOfferController {
 
     @Autowired
     JobOfferService jobOfferService;
+
+    @Autowired
+    CandidateService candidateService;
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -41,8 +47,13 @@ public class JobOfferController {
     }
 
     @GetMapping("/jobOffers/{id}")
-    public String viewJobOffer(@PathVariable("id") int id, Model model){
+    public String viewJobOffer(@PathVariable("id") int id, Model model, Authentication authentication){
         model.addAttribute("jobOffer", jobOfferService.getJobOffer(id));
+        ArrayList<Integer> appliedJobOffersIds = new ArrayList<>();
+        for(JobOffer jobOffer : candidateService.getCandidateByUsername(authentication.getName()).getAppliedJobs()){
+            appliedJobOffersIds.add(jobOffer.getId());
+        }
+        model.addAttribute("appliedJobOffers", appliedJobOffersIds);
         return "jobOffers/view";
     }
 

@@ -13,6 +13,17 @@
         <div class="card-header">
             <h4 style="font-weight:bold;display:inline-block" th:text="${jobOffer.title}"></h4>
             <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
+
+            <div style="display:inline-block;float:right" th:if="${not #arrays.contains(appliedJobOffers, jobOffer.id)}">
+                <div sec:authorize="hasRole('ROLE_USER')">
+
+                    <form th:action="@{/applyForJob}" method="post">
+                        <input type="hidden" th:name="jobOfferId" th:value="${jobOffer.id}"/>
+                        <input type="hidden" th:name="username" th:value="${#authentication.name}"/>
+                        <button type="submit" class="btn btn-sm btn-primary mr-3">Apply</button>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <h5>Company</h5>
@@ -46,6 +57,21 @@
         </div>
 
         <div sec:authorize="hasAuthority('ADMIN')">
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Applied Candidates</h5>
+                </div>
+                <div class="card-body">
+                    <ul th:each="appliedCandidate: ${jobOffer.appliedCandidates}">
+                        <li>
+                            <a th:text="${appliedCandidate.username}"
+                               th:href="@{/candidateProfiles/{username}(username=${appliedCandidate.username})}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <a th:href="@{/jobOffers/{id}/edit(id=${jobOffer.id})}" class="btn btn-primary btn-block">
                 Edit
             </a>
