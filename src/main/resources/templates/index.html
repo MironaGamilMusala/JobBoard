@@ -15,11 +15,11 @@
         Job Offers
     </a>
 
-    <div sec:authorize="hasAuthority('ADMIN')">
+    <div sec:authorize="hasRole('ADMIN')">
         <div th:insert="users/adminView :: admin"></div>
     </div>
 
-    <div sec:authorize="hasRole('ROLE_USER')">
+    <div sec:authorize="hasRole('USER')">
         <div th:insert="users/userView :: candidate"></div>
     </div>
 

@@ -25,14 +25,14 @@ public class JobOfferController {
     CandidateService candidateService;
 
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/jobOffers/new")
     public String addJobOffer(Model model) {
         model.addAttribute("jobOffer", new JobOffer());
         return "jobOffers/new";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/jobOffers/new")
     public String saveJobOffer(@Valid JobOffer jobOffer, BindingResult result, Model model) {
 
@@ -59,42 +59,42 @@ public class JobOfferController {
         return "jobOffers/view";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addJobRequirement/{operation}")
     public String addJobRequirement(@ModelAttribute("jobOffer") JobOffer jobOffer, @PathVariable("operation") String operation) {
          jobOfferService.addJobRequirement(jobOffer);
         return "jobOffers/" + operation + " :: requirements";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/removeJobRequirement/{operation}")
     public String removeJobRequirement(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobRequirement(jobOffer, requirementIndex);
         return "jobOffers/" + operation + " :: requirements";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addJobTechnology/{operation}")
     public String addJobTechnology(JobOffer jobOffer, @PathVariable("operation") String operation) {
         jobOfferService.addJobTechnology(jobOffer);
         return "jobOffers/" + operation +" :: technologies";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/removeJobTechnology/{operation}")
     public String removeJobTechnology(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobTechnology(jobOffer, requirementIndex);
         return "jobOffers/" + operation + " :: technologies";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/jobOffers/{id}/edit")
     public String editJobOffer(@PathVariable("id") int id, Model model){
         model.addAttribute("jobOffer", jobOfferService.getJobOffer(id));
         return "jobOffers/edit";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/jobOffers/{id}/edit")
     public String saveEditedJobOffer(@Valid JobOffer jobOffer, BindingResult result, Model model){
         if (result.hasErrors()) {
@@ -107,7 +107,7 @@ public class JobOfferController {
         return "redirect:/jobOffers/"+savedJobOffer.getId();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/jobOffers/{id}/delete")
     public String deleteJobOffer(@PathVariable("id") int id){
         jobOfferService.deleteJobOffer(id);

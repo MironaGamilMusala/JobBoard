@@ -44,7 +44,7 @@ public class JobOffer {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "job_candidate", joinColumns = @JoinColumn(name="job_offer_id"),
-            inverseJoinColumns = @JoinColumn(name="username"))
+            inverseJoinColumns = @JoinColumn(name="user_id"))
     private List<CandidateProfile> appliedCandidates = new ArrayList<>();
 
     public JobOffer() {
