@@ -22,7 +22,7 @@ public class CandidateProfile {
     private String previousExperience;
 
     @Column(name="technology_focus")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private TechnologyFocus technologyFocus;
 
     @OneToOne

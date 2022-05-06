@@ -46,7 +46,7 @@ CREATE TABLE `candidate_profile` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `previous_experience` varchar(200) DEFAULT NULL,
-  `technology_focus` int DEFAULT NULL,
+  `technology_focus` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_candidate_profile_1_idx` (`user_id`),
   CONSTRAINT `fk_candidate_profile_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -64,11 +64,11 @@ CREATE TABLE `candidate_technology` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `technology_name` varchar(50) NOT NULL,
-  `skill_level` int NOT NULL,
+  `skill_level` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_candidate_technology_1_idx` (`user_id`),
   CONSTRAINT `fk_candidate_technology_1` FOREIGN KEY (`user_id`) REFERENCES `candidate_profile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

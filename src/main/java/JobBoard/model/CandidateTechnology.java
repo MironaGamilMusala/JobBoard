@@ -22,7 +22,7 @@ public class CandidateTechnology {
     private String technologyName;
 
     @Column(name="skill_level")
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Level level;
 
     @ManyToOne
