@@ -20,6 +20,18 @@ public class JobRequirement {
     @ManyToOne
     private JobOffer jobOffer;
 
+    public JobRequirement() {
+    }
+
+    public JobRequirement(String requirement) {
+        this.requirement = requirement;
+    }
+
+    public JobRequirement(String requirement, JobOffer jobOffer) {
+        this.requirement = requirement;
+        this.jobOffer = jobOffer;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,9 +1,8 @@
 package JobBoard.controller;
 
-import JobBoard.model.CandidateProfile;
-import JobBoard.model.CandidateTechnology;
-import JobBoard.model.JobOffer;
+import JobBoard.model.*;
 import JobBoard.service.CandidateService;
+import JobBoard.service.CustomUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -19,6 +18,9 @@ public class CandidateController {
     @Autowired
     CandidateService candidateService;
 
+    @Autowired
+    CustomUserService customUserService;
+
     @GetMapping("/login")
     public String login(){
         return "users/login";
@@ -31,22 +33,25 @@ public class CandidateController {
 
     @PostMapping("/signup")
     public String signup(@ModelAttribute("username") String username, @ModelAttribute("password") String password){
-        candidateService.SaveCandidate(username, password);
+        CustomUser customUser = customUserService.saveCustomUser(username, password);
+        candidateService.SaveCandidate(customUser);
         return "redirect:/";
     }
 
-    @GetMapping("/candidateProfiles/{username}")
-    public String viewProfile(@PathVariable("username") String username, Model model){
-
-        CandidateProfile candidateProfile = candidateService.getCandidateByUsername(username);
+    @GetMapping("/candidateProfiles/{id}")
+    public String viewProfile(@PathVariable("id") int id, Model model){
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        CustomUser customUser = (CustomUser) principal;
+//        List<Authority> authorityList = (List<Authority>) customUser.getAuthorities();
+        CandidateProfile candidateProfile = candidateService.getCandidateByUserId(id);
         model.addAttribute("user", candidateProfile);
         return "users/view";
     }
 
-    @PreAuthorize("#username == authentication.name")
-    @GetMapping("/candidateProfiles/{username}/edit")
-    public String editProfile(@PathVariable("username") String username, Model model){
-        CandidateProfile candidateProfile = candidateService.getCandidateByUsername(username);
+    @PreAuthorize("#id == authentication.getPrincipal().getId()")
+    @GetMapping("/candidateProfiles/{id}/edit")
+    public String editProfile(@PathVariable("id") int id, Model model){
+        CandidateProfile candidateProfile = candidateService.getCandidateByUserId(id);
         CandidateTechnology candidateTechnology = new CandidateTechnology();
         candidateTechnology.setCandidateProfile(candidateProfile);
         model.addAttribute("user", candidateProfile);
@@ -54,13 +59,13 @@ public class CandidateController {
         return "users/edit";
     }
 
-    @PostMapping("/candidateProfiles/{username}/edit")
+    @PostMapping("/candidateProfiles/{id}/edit")
     public String updateProfile(@Valid @ModelAttribute("user") CandidateProfile candidateProfile, BindingResult result){
         if (result.hasErrors()) {
             return "users/edit";
         }
         candidateService.updateUserProfile(candidateProfile);
-        return "redirect:/candidateProfiles/"+ candidateProfile.getUsername();
+        return "redirect:/candidateProfiles/"+ candidateProfile.getUser().getId();
     }
 
     @PostMapping("/addCandidateTechnology")
@@ -76,8 +81,10 @@ public class CandidateController {
     }
 
     @PostMapping("/applyForJob")
-    public String applyForJob(@RequestParam(value = "jobOfferId") int jobOfferId, @RequestParam(value = "username") String username){
-        candidateService.addAppliedJob(jobOfferId, username);
-        return "redirect:/candidateProfiles/"+ username;
+    public String applyForJob(@RequestParam(value = "jobOfferId") int jobOfferId,
+                              @RequestParam(value = "candidateId") int candidateId){
+        candidateService.addAppliedJob(jobOfferId, candidateId);
+        int userId = candidateService.getCandidate(candidateId).getUser().getId();
+        return "redirect:/candidateProfiles/"+ userId;
     }
 }

@@ -10,13 +10,13 @@
     <div class="container" th:object="${user}">
         <div class="card">
             <div class="card-header">
-                <h4 style="font-weight:bold;display:inline-block" th:text="${user.username}"></h4>
+                <h4 style="font-weight:bold;display:inline-block" th:text="${user.user.username}"></h4>
                 <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
 
                 <div style="display:inline-block;float:right"
-                     th:with="loggedUser=${#authentication.name}, showedUser=${user.username}">
+                     th:with="loggedUser=${#authentication.principal.id}, showedUser=${user.user.id}">
                     <div th:if="${loggedUser == showedUser}">
-                        <a th:href="@{/candidateProfiles/{username}/edit(username=${loggedUser})}"
+                        <a th:href="@{/candidateProfiles/{id}/edit(id=${loggedUser})}"
                            class="btn btn-sm btn-primary mr-3">
                             Edit
                         </a>
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div th:with="loggedUser=${#authentication.name}, showedUser=${user.username}">
+        <div th:with="loggedUser=${#authentication.principal.id}, showedUser=${user.user.id}">
             <div class="card" th:if="${loggedUser == showedUser}">
                 <div class="card-header">
                     <h5>Applied Jobs</h5>

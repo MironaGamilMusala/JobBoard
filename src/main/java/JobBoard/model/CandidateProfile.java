@@ -14,8 +14,9 @@ public class CandidateProfile {
     }
 
     @Id
-    @Column(name="username")
-    private String username;
+    @Column(name="id")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
 
     @Column(name="previous_experience")
     private String previousExperience;
@@ -24,30 +25,30 @@ public class CandidateProfile {
     @Enumerated(EnumType.ORDINAL)
     private TechnologyFocus technologyFocus;
 
+    @OneToOne
+    private CustomUser user;
+
     @OneToMany(mappedBy="candidateProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<@Valid CandidateTechnology> technologies = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinTable(name = "job_candidate", joinColumns = @JoinColumn(name="username"),
+    @JoinTable(name = "job_candidate", joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="job_offer_id"))
     private List<JobOffer> appliedJobs = new ArrayList<>();
 
     public CandidateProfile(){
 
     }
-    public CandidateProfile(String username){
-        this.username = username;
-        this.previousExperience = null;
-        this.technologyFocus = null;
-        this.technologies = new ArrayList<>();
+    public CandidateProfile(CustomUser user){
+        this.user=user;
     }
 
-    public String getUsername() {
-        return username;
+    public int getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPreviousExperience() {
@@ -64,6 +65,14 @@ public class CandidateProfile {
 
     public void setTechnologyFocus(TechnologyFocus technologyFocus) {
         this.technologyFocus = technologyFocus;
+    }
+
+    public CustomUser getUser() {
+        return user;
+    }
+
+    public void setUser(CustomUser user) {
+        this.user = user;
     }
 
     public List<CandidateTechnology> getTechnologies() {

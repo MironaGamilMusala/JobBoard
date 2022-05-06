@@ -50,7 +50,9 @@ public class JobOfferController {
     public String viewJobOffer(@PathVariable("id") int id, Model model, Authentication authentication){
         model.addAttribute("jobOffer", jobOfferService.getJobOffer(id));
         ArrayList<Integer> appliedJobOffersIds = new ArrayList<>();
-        for(JobOffer jobOffer : candidateService.getCandidateByUsername(authentication.getName()).getAppliedJobs()){
+
+        int userId = ((CustomUser)authentication.getPrincipal()).getId();
+        for(JobOffer jobOffer : candidateService.getCandidateByUserId(userId).getAppliedJobs()){
             appliedJobOffersIds.add(jobOffer.getId());
         }
         model.addAttribute("appliedJobOffers", appliedJobOffersIds);

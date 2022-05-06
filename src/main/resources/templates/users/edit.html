@@ -9,18 +9,19 @@
 </head>
 <body>
 <div class="container">
-    <form th:action="@{/candidateProfiles/{username}/edit(username=${user.username})}"
+    <form th:action="@{/candidateProfiles/{id}/edit(id=${user.user.id})}"
           th:object="${user}" method="post" id="candidateProfile">
 
         <div class="border border-secondary p-3 rounded">
             <div class="card">
                 <div class="card-header">
-                    <h4 style="display:inline-block" th:text="${user.username}"></h4>
+                    <h4 style="display:inline-block" th:text="${user.user.username}"></h4>
                     <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
                 </div>
                 <div class="card-header">
                     <div>
-                        <input type="hidden" th:field="*{username}"/>
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{user.id}"/>
                     </div>
                     <div>
                         <label style="margin-left:20px">Previous Experience</label>
@@ -57,7 +58,7 @@
                         <tr th:fragment="technologies" th:each="technology,rowStat : ${user.technologies}">
 
                             <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
-                            <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.username}">
+                            <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.id}">
                             <td>
                                 <input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" />
                                 <p th:if="${#fields.hasErrors('${user.technologies[__${rowStat.index}__].technologyName}')}" th:errorclass="error"

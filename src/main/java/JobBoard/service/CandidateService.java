@@ -2,21 +2,18 @@ package JobBoard.service;
 
 
 import JobBoard.Repository.CandidateProfileRepository;
-import JobBoard.Repository.CandidateTechnologyRepository;
-import JobBoard.model.CandidateProfile;
-import JobBoard.model.CandidateTechnology;
-import JobBoard.model.JobOffer;
+import JobBoard.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class CandidateService {
-
-    @Autowired
-    JdbcUserDetailsManager jdbcUserDetailsManager;
 
     @Autowired
     CandidateProfileRepository candidateProfileRepository;
@@ -25,16 +22,18 @@ public class CandidateService {
     JobOfferService jobOfferService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    CustomUserService customUserService;
 
-    public void SaveCandidate(String username, String password){
-        jdbcUserDetailsManager.createUser(
-                User.withUsername(username).password(passwordEncoder.encode(password)).roles("USER").build());
-        candidateProfileRepository.save(new CandidateProfile(username));
+    public void SaveCandidate(CustomUser customUser){
+        candidateProfileRepository.save(new CandidateProfile(customUser));
     }
 
-    public CandidateProfile getCandidateByUsername(String username){;
-        return candidateProfileRepository.findByUsername(username);
+    public CandidateProfile getCandidate(int id){
+        return candidateProfileRepository.findById(id).get();
+    }
+
+    public CandidateProfile getCandidateByUserId(int id){
+        return candidateProfileRepository.findByUserId(id);
     }
 
     public CandidateProfile updateUserProfile(CandidateProfile candidateProfile){
@@ -51,11 +50,10 @@ public class CandidateService {
         candidateProfile.getTechnologies().remove(requirementIndex.intValue());
     }
 
-    public void addAppliedJob(int jobOfferId, String username){
-        CandidateProfile candidateProfile = getCandidateByUsername(username);
+    public void addAppliedJob(int jobOfferId, int candidateId){
+        CandidateProfile candidateProfile = getCandidate(candidateId);
         JobOffer jobOffer = jobOfferService.getJobOffer(jobOfferId);
         candidateProfile.getAppliedJobs().add(jobOffer);
         candidateProfileRepository.save(candidateProfile);
     }
-
 }

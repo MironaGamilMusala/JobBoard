@@ -2,7 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body >
 <div th:fragment="candidate">
-    <a th:href="@{/candidateProfiles/{username}(username=${#authentication.name})}">
+
+    <a th:href="@{/candidateProfiles/{id}(id=${#authentication.principal.id})}">
         My Profile
     </a>
 </div>

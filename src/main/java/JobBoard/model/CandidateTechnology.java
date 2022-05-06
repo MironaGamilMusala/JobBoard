@@ -26,8 +26,15 @@ public class CandidateTechnology {
     private Level level;
 
     @ManyToOne
-    @JoinColumn(name="username")
+    @JoinColumn(name="user_id")
     private CandidateProfile candidateProfile;
+
+    public CandidateTechnology() {
+    }
+
+    public CandidateTechnology(String technologyName) {
+        this.technologyName = technologyName;
+    }
 
     public int getId() {
         return id;

@@ -19,6 +19,18 @@ public class JobTechnology {
     @ManyToOne
     private JobOffer jobOffer;
 
+    public JobTechnology() {
+    }
+
+    public JobTechnology(String technology) {
+        this.technology = technology;
+    }
+
+    public JobTechnology(String technology, JobOffer jobOffer) {
+        this.technology = technology;
+        this.jobOffer = jobOffer;
+    }
+
     public int getId() {
         return id;
     }
