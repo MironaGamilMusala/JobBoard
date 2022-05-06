@@ -2,7 +2,6 @@ package JobBoard.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="candidate_technology")
@@ -17,23 +16,19 @@ public class CandidateTechnology {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Technology can not be blank")
-    @Column(name="technology_name")
-    private String technologyName;
-
     @Column(name="skill_level")
     @Enumerated(EnumType.STRING)
     private Level level;
+
+    @OneToOne
+    @JoinColumn(name = "technology_id")
+    private Technology technology;
 
     @ManyToOne
     @JoinColumn(name="user_id")
     private CandidateProfile candidateProfile;
 
     public CandidateTechnology() {
-    }
-
-    public CandidateTechnology(String technologyName) {
-        this.technologyName = technologyName;
     }
 
     public int getId() {
@@ -44,12 +39,12 @@ public class CandidateTechnology {
         this.id = id;
     }
 
-    public String getTechnologyName() {
-        return technologyName;
+    public Technology getTechnology() {
+        return technology;
     }
 
-    public void setTechnologyName(String technologyName) {
-        this.technologyName = technologyName;
+    public void setTechnology(Technology technology) {
+        this.technology = technology;
     }
 
     public Level getLevel() {

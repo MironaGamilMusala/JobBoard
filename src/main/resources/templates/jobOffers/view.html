@@ -51,7 +51,7 @@
             </div>
             <div class="card-body">
                 <ul th:each="technology: ${jobOffer.technologies}">
-                    <li th:text="${technology.technology}"></li>
+                    <li th:text="${technology.technology.technologyName}"></li>
                 </ul>
             </div>
         </div>

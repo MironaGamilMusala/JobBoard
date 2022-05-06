@@ -3,6 +3,7 @@ package JobBoard.controller;
 import JobBoard.model.*;
 import JobBoard.service.CandidateService;
 import JobBoard.service.JobOfferService;
+import JobBoard.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,8 @@ public class JobOfferController {
     @Autowired
     CandidateService candidateService;
 
+    @Autowired
+    TechnologyService technologyService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/jobOffers/new")
@@ -42,7 +45,7 @@ public class JobOfferController {
 
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
         model.addAttribute("jobOffer", savedJobOffer);
-
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "redirect:/jobOffers/"+savedJobOffer.getId();
     }
 
@@ -61,29 +64,36 @@ public class JobOfferController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addJobRequirement/{operation}")
-    public String addJobRequirement(@ModelAttribute("jobOffer") JobOffer jobOffer, @PathVariable("operation") String operation) {
-         jobOfferService.addJobRequirement(jobOffer);
+    public String addJobRequirement(Model model, @ModelAttribute("jobOffer") JobOffer jobOffer,
+                                    @PathVariable("operation") String operation) {
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        jobOfferService.addJobRequirement(jobOffer);
         return "jobOffers/" + operation + " :: requirements";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/removeJobRequirement/{operation}")
-    public String removeJobRequirement(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+    public String removeJobRequirement(JobOffer jobOffer,  Model model, @PathVariable("operation") String operation,
+                                       @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobRequirement(jobOffer, requirementIndex);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "jobOffers/" + operation + " :: requirements";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addJobTechnology/{operation}")
-    public String addJobTechnology(JobOffer jobOffer, @PathVariable("operation") String operation) {
+    public String addJobTechnology(JobOffer jobOffer, Model model, @PathVariable("operation") String operation) {
         jobOfferService.addJobTechnology(jobOffer);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "jobOffers/" + operation +" :: technologies";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/removeJobTechnology/{operation}")
-    public String removeJobTechnology(JobOffer jobOffer,  @PathVariable("operation") String operation, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+    public String removeJobTechnology(JobOffer jobOffer, Model model, @PathVariable("operation") String operation,
+                                      @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobTechnology(jobOffer, requirementIndex);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "jobOffers/" + operation + " :: technologies";
     }
 
@@ -91,6 +101,7 @@ public class JobOfferController {
     @GetMapping("/jobOffers/{id}/edit")
     public String editJobOffer(@PathVariable("id") int id, Model model){
         model.addAttribute("jobOffer", jobOfferService.getJobOffer(id));
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "jobOffers/edit";
     }
 

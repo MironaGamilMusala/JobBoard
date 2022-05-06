@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="technology: ${user.technologies}">
-                            <td class="title" th:text="${technology.technologyName}"></td>
+                            <td class="title" th:text="${technology.technology.technologyName}"></td>
                             <td class="title" th:text="${technology.level}"></td>
                         </tr>
                     </tbody>

@@ -60,9 +60,12 @@
                             <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].id}">
                             <input type="hidden" th:field="${user.technologies[__${rowStat.index}__].candidateProfile.id}">
                             <td>
-                                <input type="text" th:field="${user.technologies[__${rowStat.index}__].technologyName}" />
-                                <p th:if="${#fields.hasErrors('${user.technologies[__${rowStat.index}__].technologyName}')}" th:errorclass="error"
-                                   th:errors="${user.technologies[__${rowStat.index}__].technologyName}" />
+                                <select th:field="${user.technologies[__${rowStat.index}__].technology.id}">
+                                    <option th:each="fixedTechnology : ${fixedTechnologies}"
+                                            th:value="${fixedTechnology.id}"
+                                            th:text="${fixedTechnology.technologyName}">
+                                    </option>
+                                </select>
                             </td>
                             <td>
                                 <select th:field="${user.technologies[__${rowStat.index}__].level}">

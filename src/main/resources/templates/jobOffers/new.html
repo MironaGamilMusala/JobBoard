@@ -72,9 +72,12 @@
 
                         <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
                         <td>
-                            <input class="form-control" th:field="${jobOffer.technologies[__${rowStat.index}__].technology}"/>
-                            <p th:if="${#fields.hasErrors('${jobOffer.technologies[__${rowStat.index}__].technology}')}" th:errorclass="error"
-                               th:errors="${jobOffer.technologies[__${rowStat.index}__].technology}" />
+                            <select th:field="${jobOffer.technologies[__${rowStat.index}__].technology.id}">
+                                <option th:each="fixedTechnology : ${fixedTechnologies}"
+                                        th:value="${fixedTechnology.id}"
+                                        th:text="${fixedTechnology.technologyName}">
+                                </option>
+                            </select>
                         </td>
 
                         <td>

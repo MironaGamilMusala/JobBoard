@@ -3,6 +3,7 @@ package JobBoard.controller;
 import JobBoard.model.*;
 import JobBoard.service.CandidateService;
 import JobBoard.service.CustomUserService;
+import JobBoard.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class CandidateController {
@@ -20,6 +22,9 @@ public class CandidateController {
 
     @Autowired
     CustomUserService customUserService;
+
+    @Autowired
+    TechnologyService technologyService;
 
     @GetMapping("/login")
     public String login(){
@@ -52,10 +57,8 @@ public class CandidateController {
     @GetMapping("/candidateProfiles/{id}/edit")
     public String editProfile(@PathVariable("id") int id, Model model){
         CandidateProfile candidateProfile = candidateService.getCandidateByUserId(id);
-        CandidateTechnology candidateTechnology = new CandidateTechnology();
-        candidateTechnology.setCandidateProfile(candidateProfile);
         model.addAttribute("user", candidateProfile);
-        model.addAttribute("technology", candidateTechnology);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "users/edit";
     }
 
@@ -69,14 +72,17 @@ public class CandidateController {
     }
 
     @PostMapping("/addCandidateTechnology")
-    public String addCandidateTechnology(@ModelAttribute("user") CandidateProfile candidateProfile) {
+    public String addCandidateTechnology(Model model, @ModelAttribute("user") CandidateProfile candidateProfile) {
         candidateService.addCandidateTechnology(candidateProfile);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "users/edit :: technologies";
     }
 
     @PostMapping("/removeCandidateTechnology")
-    public String removeCandidateTechnology(@ModelAttribute("user") CandidateProfile candidateProfile, @RequestParam("removeDynamicRow") Integer requirementIndex) {
+    public String removeCandidateTechnology(Model model, @ModelAttribute("user") CandidateProfile candidateProfile,
+                                            @RequestParam("removeDynamicRow") Integer requirementIndex) {
         candidateService.removeCandidateTechnology(candidateProfile, requirementIndex);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "users/edit :: technologies";
     }
 

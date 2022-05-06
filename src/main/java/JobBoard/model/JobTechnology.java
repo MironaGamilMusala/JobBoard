@@ -12,23 +12,14 @@ public class JobTechnology {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Technology can not be blank")
-    @Column(name="technology")
-    private String technology;
+    @OneToOne
+    @JoinColumn(name="technology_id")
+    private Technology technology;
 
     @ManyToOne
     private JobOffer jobOffer;
 
     public JobTechnology() {
-    }
-
-    public JobTechnology(String technology) {
-        this.technology = technology;
-    }
-
-    public JobTechnology(String technology, JobOffer jobOffer) {
-        this.technology = technology;
-        this.jobOffer = jobOffer;
     }
 
     public int getId() {
@@ -39,11 +30,11 @@ public class JobTechnology {
         this.id = id;
     }
 
-    public String getTechnology() {
+    public Technology getTechnology() {
         return technology;
     }
 
-    public void setTechnology(String technology) {
+    public void setTechnology(Technology technology) {
         this.technology = technology;
     }
 
