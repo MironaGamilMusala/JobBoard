@@ -98,6 +98,13 @@
                     </tbody>
                 </table>
             </div>
+            <div style="display: none;">
+                <table>
+                    <tr th:each="candidateProfile,rowStat : ${jobOffer.appliedCandidates}">
+                        <input type="hidden" th:field="${jobOffer.appliedCandidates[__${rowStat.index}__]}">
+                    </tr>
+                </table>
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Save Job Offer</button>
         </div>
     </form>

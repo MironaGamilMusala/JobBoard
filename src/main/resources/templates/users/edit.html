@@ -90,6 +90,13 @@
                     </table>
                 </div>
             </div>
+            <div style="display: none;">
+                <table>
+                    <tr th:each="jobOffer,rowStat : ${user.appliedJobs}">
+                        <input type="hidden" th:field="${user.appliedJobs[__${rowStat.index}__]}">
+                    </tr>
+                </table>
+            </div>
             <input type="submit" value="Save" class="btn btn-primary btn-block" />
 
         </div>
