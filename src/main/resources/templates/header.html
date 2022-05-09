@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
+    <header style="background:#1e8aff; padding:10px 20px;">
+
+        <div id="header" style="display: inline-block;">
+            <div style="float:left; margin-top:10px">
+                <a th:href="@{/}">
+                    <img th:src="@{/photos/jobs.jpg}" alt="Jobs" width="120" height="50">
+                </a>
+            </div>
+            <div style="float:right; margin-left:1120px; margin-top:30px;">
+                <div sec:authorize="isAnonymous()">
+                    <a th:href="@{/login}">Login</a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a th:href="@{/candidateProfiles/{id}(id=${#authentication.principal.id})}"
+                       sec:authentication="name"></a>
+                    <a th:href="@{/logout}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <style>
+        div#header a:link, div#header a:visited {
+            color: red;
+            background-color: pink;
+            border: 0px;
+            padding: 10px 10px;
+            display: inline-block;
+            text-decoration: none;
+            font-family: sans-serif;
+        }
+    </style>
+</div>
+</html>
