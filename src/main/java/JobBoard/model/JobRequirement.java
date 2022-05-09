@@ -13,7 +13,7 @@ public class JobRequirement {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank(message = "Requirement can not be blank")
+    @NotBlank(message = "{jobRequirement.validation.requirement}")
     @Column(name="requirement")
     private String requirement;
 

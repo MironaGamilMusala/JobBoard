@@ -16,30 +16,30 @@ public class JobOffer {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @NotBlank (message = "Title can not be blank")
+    @NotBlank (message = "{jobOffer.validation.title}")
     @Column(name="title")
     private String title;
 
-    @NotBlank (message = "Company Name can not be blank")
+    @NotBlank (message = "{jobOffer.validation.companyName}")
     @Column(name="company_name")
     private String companyName;
 
-    @NotBlank (message = "Description can not be blank")
+    @NotBlank (message = "{jobOffer.validation.description}")
     @Column(name="description")
     private String description;
 
-    @NotBlank (message = "Technology Profile can not be blank")
+    @NotBlank (message = "{jobOffer.validation.technologyProfile}")
     @Column(name="technology_profile")
     private String technologyProfile;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
-    @NotEmpty(message = "Requirements can not be empty")
+    @NotEmpty(message = "{jobOffer.validation.requirements}")
     private List<@Valid JobRequirement> requirements = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
-    @NotEmpty(message = "Technologies can not be empty")
+    @NotEmpty(message = "{jobOffer.validation.technologies}")
     private List<@Valid JobTechnology> technologies = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
