@@ -7,11 +7,11 @@
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 </head>
 <body>
+<div th:insert="header :: header"></div>
     <div class="container" th:object="${user}">
         <div class="card">
             <div class="card-header">
                 <h4 style="font-weight:bold;display:inline-block" th:text="${user.user.username}"></h4>
-                <a th:href="@{/}" class="btn btn-sm btn-primary float-right mr-3">Home</a>
 
                 <div style="display:inline-block;float:right"
                      th:with="loggedUser=${#authentication.principal.id}, showedUser=${user.user.id}">

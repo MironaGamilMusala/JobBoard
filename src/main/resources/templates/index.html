@@ -7,7 +7,8 @@
     <link rel="stylesheet" th:href="@{css/index.css}"/>
 </head>
 <body>
-<img src="photos/jobs.jpg" alt="Jobs" width="50%" class="center">
+<div th:insert="header :: header"></div>
+<img th:src="@{/photos/jobs.jpg}" alt="Jobs" width="50%" class="center">
 <h1>Welcome to Job Board</h1>
 
 <div style="text-align:center">
@@ -16,27 +17,11 @@
     </a>
 
     <div sec:authorize="hasRole('ADMIN')">
-        <div th:insert="users/adminView :: admin"></div>
+        <a th:href="@{/jobOffers/new}">
+            Add Job Offer
+        </a>
     </div>
 
-    <div sec:authorize="hasRole('USER')">
-        <div th:insert="users/userView :: candidate"></div>
-    </div>
-
-    <div sec:authorize="isAuthenticated()">
-        <div>
-            <a th:href="@{/logout}">
-                Logout
-            </a>
-        </div>
-    </div>
-    <div sec:authorize="isAnonymous()">
-        <div>
-            <a th:href="@{/login}">
-                Login
-            </a>
-        </div>
-    </div>
 </div>
 </body>
 </html>
