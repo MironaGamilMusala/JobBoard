@@ -55,6 +55,7 @@ public class UserSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
         http.authorizeRequests()
                 .antMatchers("/signup","/","/jobOffers/all").permitAll()
+                .antMatchers("/technologies/*","/technologyProfiles/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
