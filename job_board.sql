@@ -46,10 +46,12 @@ CREATE TABLE `candidate_profile` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `previous_experience` varchar(200) DEFAULT NULL,
-  `technology_focus` varchar(50) DEFAULT NULL,
+  `technology_profile_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_candidate_profile_1_idx` (`user_id`),
-  CONSTRAINT `fk_candidate_profile_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `fk_candidate_profile_2_idx` (`technology_profile_id`),
+  CONSTRAINT `fk_candidate_profile_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_candidate_profile_2` FOREIGN KEY (`technology_profile_id`) REFERENCES `technology_profile` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,10 +105,12 @@ CREATE TABLE `job_offer` (
   `title` varchar(50) NOT NULL,
   `company_name` varchar(50) NOT NULL,
   `description` varchar(200) NOT NULL,
-  `technology_profile` varchar(50) NOT NULL,
+  `technology_profile_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_index` (`title`,`company_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `unique_index` (`title`,`company_name`),
+  KEY `fk_job_offer_1_idx` (`technology_profile_id`),
+  CONSTRAINT `fk_job_offer_1` FOREIGN KEY (`technology_profile_id`) REFERENCES `technology_profile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,7 +128,7 @@ CREATE TABLE `job_requirement` (
   UNIQUE KEY `unique_index` (`job_offer_id`,`requirement`),
   KEY `fk_job_requirement_1_idx` (`job_offer_id`),
   CONSTRAINT `fk_job_requirement_1` FOREIGN KEY (`job_offer_id`) REFERENCES `job_offer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +148,7 @@ CREATE TABLE `job_technology` (
   KEY `fk_job_technology_2_idx` (`technology_id`),
   CONSTRAINT `fk_job_technology_1` FOREIGN KEY (`job_offer_id`) REFERENCES `job_offer` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_job_technology_2` FOREIGN KEY (`technology_id`) REFERENCES `technology` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,10 +160,25 @@ DROP TABLE IF EXISTS `technology`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `technology` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `technology_name` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `technology_name_UNIQUE` (`technology_name`)
+  UNIQUE KEY `technology_name_UNIQUE` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `technology_profile`
+--
+
+DROP TABLE IF EXISTS `technology_profile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `technology_profile` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `technology_profile_name_UNIQUE` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

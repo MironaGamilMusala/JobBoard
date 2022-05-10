@@ -28,7 +28,7 @@
                 <h5>Previous Experience</h5>
                 <p class="title" th:text="${user.previousExperience}"></p>
                 <h5>Technology Focus</h5>
-                <p class="title" th:text="${user.technologyProfile.technologyProfileName}"></p>
+                <p class="title" th:text="${user.technologyProfile.name}"></p>
             </div>
         </div>
         <div class="card">
@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="technology: ${user.technologies}">
-                            <td class="title" th:text="${technology.technology.technologyName}"></td>
+                            <td class="title" th:text="${technology.technology.name}"></td>
                             <td class="title" th:text="${technology.level}"></td>
                         </tr>
                     </tbody>

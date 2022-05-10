@@ -11,8 +11,8 @@ public class TechnologyProfile {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="technology_profile_name")
-    private String technologyProfileName;
+    @Column(name="name")
+    private String name;
 
     public int getId() {
         return id;
@@ -22,11 +22,11 @@ public class TechnologyProfile {
         this.id = id;
     }
 
-    public String getTechnologyProfileName() {
-        return technologyProfileName;
+    public String getName() {
+        return name;
     }
 
-    public void setTechnologyProfileName(String technologyProfileName) {
-        this.technologyProfileName = technologyProfileName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

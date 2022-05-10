@@ -33,7 +33,7 @@
             <select th:field="${jobOffer.technologyProfile.id}">
                 <option th:each="technologyProfile : ${technologyProfiles}"
                         th:value="${technologyProfile.id}"
-                        th:text="${technologyProfile.technologyProfileName}">
+                        th:text="${technologyProfile.name}">
                 </option>
             </select>
         </div>
