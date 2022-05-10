@@ -30,9 +30,12 @@
     <div>
         <label style="margin-left:20px">Technology Profile</label>
         <div class="col-md-12" style="margin-bottom:20px">
-            <input type="text" class="form-control" th:field="${jobOffer.technologyProfile}"
-                   placeholder="Technology Profile">
-            <p th:if="${#fields.hasErrors('technologyProfile')}" th:errorclass="error" th:errors="*{technologyProfile}" />
+            <select th:field="${jobOffer.technologyProfile.id}">
+                <option th:each="technologyProfile : ${technologyProfiles}"
+                        th:value="${technologyProfile.id}"
+                        th:text="${technologyProfile.technologyProfileName}">
+                </option>
+            </select>
         </div>
     </div>
 

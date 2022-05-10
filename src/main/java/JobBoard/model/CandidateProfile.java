@@ -9,10 +9,6 @@ import java.util.List;
 @Table(name="candidate_profile")
 public class CandidateProfile {
 
-    public enum TechnologyFocus {
-        BACKEND, FRONTEND, FULLSTACK;
-    }
-
     @Id
     @Column(name="id")
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,9 +17,9 @@ public class CandidateProfile {
     @Column(name="previous_experience")
     private String previousExperience;
 
-    @Column(name="technology_focus")
-    @Enumerated(EnumType.STRING)
-    private TechnologyFocus technologyFocus;
+    @OneToOne
+    @JoinColumn(name="technology_profile_id")
+    private TechnologyProfile technologyProfile;
 
     @OneToOne
     private CustomUser user;
@@ -59,12 +55,12 @@ public class CandidateProfile {
         this.previousExperience = previousExperience;
     }
 
-    public TechnologyFocus getTechnologyFocus() {
-        return technologyFocus;
+    public TechnologyProfile getTechnologyProfile() {
+        return technologyProfile;
     }
 
-    public void setTechnologyFocus(TechnologyFocus technologyFocus) {
-        this.technologyFocus = technologyFocus;
+    public void setTechnologyProfile(TechnologyProfile technologyProfile) {
+        this.technologyProfile = technologyProfile;
     }
 
     public CustomUser getUser() {

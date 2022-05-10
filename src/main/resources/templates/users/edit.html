@@ -32,10 +32,10 @@
                     <div>
                         <label style="margin-left:20px">Technology Focus</label>
                         <div class="col-md-12">
-                            <select th:field="*{technologyFocus}">
-                                <option th:each="technologyFocus : ${T(JobBoard.model.CandidateProfile.TechnologyFocus).values()}"
-                                        th:value="${technologyFocus}"
-                                        th:text="${technologyFocus}">
+                            <select th:field="${user.technologyProfile.id}">
+                                <option th:each="technologyProfile: ${technologyProfiles}"
+                                        th:value="${technologyProfile.id}"
+                                        th:text="${technologyProfile.technologyProfileName}">
                                 </option>
                             </select>
                         </div>

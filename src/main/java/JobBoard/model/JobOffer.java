@@ -28,9 +28,9 @@ public class JobOffer {
     @Column(name="description")
     private String description;
 
-    @NotBlank (message = "{jobOffer.validation.technologyProfile}")
-    @Column(name="technology_profile")
-    private String technologyProfile;
+    @OneToOne
+    @JoinColumn(name="technology_profile_id")
+    private TechnologyProfile technologyProfile;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "job_offer_id")
@@ -50,7 +50,7 @@ public class JobOffer {
     public JobOffer() {
     }
 
-    public JobOffer(String title, String companyName, String description, String technologyProfile,
+    public JobOffer(String title, String companyName, String description, TechnologyProfile technologyProfile,
                     List<@Valid JobRequirement> requirements, List<@Valid JobTechnology> technologies) {
         this.title = title;
         this.companyName = companyName;
@@ -92,11 +92,11 @@ public class JobOffer {
         this.description = description;
     }
 
-    public String getTechnologyProfile() {
+    public TechnologyProfile getTechnologyProfile() {
         return technologyProfile;
     }
 
-    public void setTechnologyProfile(String technologyProfile) {
+    public void setTechnologyProfile(TechnologyProfile technologyProfile) {
         this.technologyProfile = technologyProfile;
     }
 

@@ -3,6 +3,7 @@ package JobBoard.controller;
 import JobBoard.model.*;
 import JobBoard.service.CandidateService;
 import JobBoard.service.CustomUserService;
+import JobBoard.service.TechnologyProfileService;
 import JobBoard.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,9 @@ public class CandidateController {
     @Autowired
     TechnologyService technologyService;
 
+    @Autowired
+    TechnologyProfileService technologyProfileService;
+
     @GetMapping("/login")
     public String login(){
         return "users/login";
@@ -45,9 +49,6 @@ public class CandidateController {
 
     @GetMapping("/candidateProfiles/{id}")
     public String viewProfile(@PathVariable("id") int id, Model model){
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        CustomUser customUser = (CustomUser) principal;
-//        List<Authority> authorityList = (List<Authority>) customUser.getAuthorities();
         CandidateProfile candidateProfile = candidateService.getCandidateByUserId(id);
         model.addAttribute("user", candidateProfile);
         return "users/view";
@@ -59,12 +60,15 @@ public class CandidateController {
         CandidateProfile candidateProfile = candidateService.getCandidateByUserId(id);
         model.addAttribute("user", candidateProfile);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "users/edit";
     }
 
     @PostMapping("/candidateProfiles/{id}/edit")
-    public String updateProfile(@Valid @ModelAttribute("user") CandidateProfile candidateProfile, BindingResult result){
+    public String updateProfile(@Valid @ModelAttribute("user") CandidateProfile candidateProfile, BindingResult result, Model model){
         if (result.hasErrors()) {
+            model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+            model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
             return "users/edit";
         }
         candidateService.updateUserProfile(candidateProfile);
@@ -75,6 +79,7 @@ public class CandidateController {
     public String addCandidateTechnology(Model model, @ModelAttribute("user") CandidateProfile candidateProfile) {
         candidateService.addCandidateTechnology(candidateProfile);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "users/edit :: technologies";
     }
 
@@ -83,6 +88,7 @@ public class CandidateController {
                                             @RequestParam("removeDynamicRow") Integer requirementIndex) {
         candidateService.removeCandidateTechnology(candidateProfile, requirementIndex);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "users/edit :: technologies";
     }
 

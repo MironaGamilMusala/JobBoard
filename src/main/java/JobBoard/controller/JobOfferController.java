@@ -3,6 +3,7 @@ package JobBoard.controller;
 import JobBoard.model.*;
 import JobBoard.service.CandidateService;
 import JobBoard.service.JobOfferService;
+import JobBoard.service.TechnologyProfileService;
 import JobBoard.service.TechnologyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,10 +29,14 @@ public class JobOfferController {
     @Autowired
     TechnologyService technologyService;
 
+    @Autowired
+    TechnologyProfileService technologyProfileService;
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/jobOffers/new")
     public String addJobOffer(Model model) {
         model.addAttribute("jobOffer", new JobOffer());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "jobOffers/new";
     }
 
@@ -40,12 +45,12 @@ public class JobOfferController {
     public String saveJobOffer(@Valid JobOffer jobOffer, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
+            model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+            model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
             return "jobOffers/new";
         }
-
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
         model.addAttribute("jobOffer", savedJobOffer);
-        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
         return "redirect:/jobOffers/"+savedJobOffer.getId();
     }
 
@@ -67,6 +72,7 @@ public class JobOfferController {
     public String addJobRequirement(Model model, @ModelAttribute("jobOffer") JobOffer jobOffer,
                                     @PathVariable("operation") String operation) {
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         jobOfferService.addJobRequirement(jobOffer);
         return "jobOffers/" + operation + " :: requirements";
     }
@@ -77,6 +83,7 @@ public class JobOfferController {
                                        @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobRequirement(jobOffer, requirementIndex);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "jobOffers/" + operation + " :: requirements";
     }
 
@@ -85,6 +92,7 @@ public class JobOfferController {
     public String addJobTechnology(JobOffer jobOffer, Model model, @PathVariable("operation") String operation) {
         jobOfferService.addJobTechnology(jobOffer);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "jobOffers/" + operation +" :: technologies";
     }
 
@@ -94,6 +102,7 @@ public class JobOfferController {
                                       @RequestParam("removeDynamicRow") Integer requirementIndex) {
         jobOfferService.removeJobTechnology(jobOffer, requirementIndex);
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "jobOffers/" + operation + " :: technologies";
     }
 
@@ -102,6 +111,7 @@ public class JobOfferController {
     public String editJobOffer(@PathVariable("id") int id, Model model){
         model.addAttribute("jobOffer", jobOfferService.getJobOffer(id));
         model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
         return "jobOffers/edit";
     }
 
@@ -114,6 +124,8 @@ public class JobOfferController {
 
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
         model.addAttribute("jobOffer", savedJobOffer);
+        model.addAttribute("fixedTechnologies", technologyService.getAllTechnologies());
+        model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
 
         return "redirect:/jobOffers/"+savedJobOffer.getId();
     }
