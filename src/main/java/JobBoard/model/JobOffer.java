@@ -28,7 +28,7 @@ public class JobOffer {
     @Column(name="description")
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name="technology_profile_id")
     private TechnologyProfile technologyProfile;
 

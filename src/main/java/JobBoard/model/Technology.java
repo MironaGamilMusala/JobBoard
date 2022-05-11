@@ -14,6 +14,14 @@ public class Technology {
     @Column(name="name")
     private String name;
 
+    public Technology() {
+    }
+
+
+    public Technology(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }

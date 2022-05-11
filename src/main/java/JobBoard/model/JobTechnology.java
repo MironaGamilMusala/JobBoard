@@ -11,7 +11,7 @@ public class JobTechnology {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="technology_id")
     private Technology technology;
 
@@ -19,6 +19,10 @@ public class JobTechnology {
     private JobOffer jobOffer;
 
     public JobTechnology() {
+    }
+
+    public JobTechnology(Technology technology) {
+        this.technology = technology;
     }
 
     public int getId() {
