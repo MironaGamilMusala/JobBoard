@@ -29,7 +29,7 @@ public class CandidateService {
     }
 
     public CandidateProfile getCandidate(int id){
-        return candidateProfileRepository.findById(id).get();
+        return candidateProfileRepository.getById(id);
     }
 
     public CandidateProfile getCandidateByUserId(int id){
