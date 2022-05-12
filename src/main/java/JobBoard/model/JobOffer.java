@@ -4,11 +4,12 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="job_offer")
+@Table(name="job_offer", indexes = @Index(name = "uniqueJob", columnList = "title, company_name", unique = true))
 public class JobOffer {
 
     @Id
@@ -28,6 +29,7 @@ public class JobOffer {
     @Column(name="description")
     private String description;
 
+    @NotNull
     @OneToOne(cascade = {CascadeType.PERSIST})
     @JoinColumn(name="technology_profile_id")
     private TechnologyProfile technologyProfile;

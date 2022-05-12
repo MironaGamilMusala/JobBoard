@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="job_requirement")
+@Table(name="job_requirement", indexes = @Index(name = "uniqueRequirement", columnList = "requirement, job_offer_id", unique = true))
 public class JobRequirement {
 
     @Id
