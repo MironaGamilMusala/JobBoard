@@ -21,7 +21,7 @@ public class CandidateProfile {
     @JoinColumn(name="technology_profile_id")
     private TechnologyProfile technologyProfile;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private CustomUser user;
 
     @OneToMany(mappedBy="candidateProfile", cascade = CascadeType.ALL, orphanRemoval = true)
