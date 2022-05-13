@@ -26,13 +26,13 @@
                     <div>
                         <label style="margin-left:20px">Previous Experience</label>
                         <div class="col-md-12">
-                            <input type="text" th:field="*{previousExperience}" class="form-control" placeholder="Previous Experience" required />
+                            <input type="text" th:field="*{previousExperience}" class="form-control" placeholder="Previous Experience"/>
                         </div>
                     </div>
                     <div>
                         <label style="margin-left:20px">Technology Focus</label>
                         <div class="col-md-12">
-                            <select th:field="${user.technologyProfile.id}">
+                            <select th:field="${user.technologyProfile}">
                                 <option th:each="technologyProfile: ${technologyProfiles}"
                                         th:value="${technologyProfile.id}"
                                         th:text="${technologyProfile.name}">

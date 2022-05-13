@@ -49,8 +49,14 @@ public class JobOfferController {
             model.addAttribute("technologyProfiles", technologyProfileService.getAllTechnologyProfiles());
             return "jobOffers/new";
         }
+        for(JobRequirement jobRequirement : jobOffer.getRequirements()){
+            jobRequirement.setJobOffer(jobOffer);
+        }
+        for(JobTechnology jobTechnology : jobOffer.getTechnologies()){
+            jobTechnology.setJobOffer(jobOffer);
+        }
+
         JobOffer savedJobOffer = jobOfferService.saveJobOffer(jobOffer);
-        model.addAttribute("jobOffer", savedJobOffer);
         return "redirect:/jobOffers/"+savedJobOffer.getId();
     }
 

@@ -30,7 +30,7 @@
     <div>
         <label style="margin-left:20px">Technology Profile</label>
         <div class="col-md-12" style="margin-bottom:20px">
-            <select th:field="${jobOffer.technologyProfile.id}">
+            <select th:field="${jobOffer.technologyProfile}">
                 <option th:each="technologyProfile : ${technologyProfiles}"
                         th:value="${technologyProfile.id}"
                         th:text="${technologyProfile.name}">

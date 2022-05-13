@@ -77,7 +77,7 @@
                         <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].id}">
                         <input type="hidden" th:field="${jobOffer.technologies[__${rowStat.index}__].jobOffer.id}">
                         <td>
-                            <select th:field="${jobOffer.technologies[__${rowStat.index}__].technology.id}">
+                            <select th:field="${jobOffer.technologies[__${rowStat.index}__].technology}">
                                 <option th:each="fixedTechnology : ${fixedTechnologies}"
                                         th:value="${fixedTechnology.id}"
                                         th:text="${fixedTechnology.name}">

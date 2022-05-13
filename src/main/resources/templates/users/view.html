@@ -28,7 +28,7 @@
                 <h5>Previous Experience</h5>
                 <p class="title" th:text="${user.previousExperience}"></p>
                 <h5>Technology Focus</h5>
-                <p class="title" th:text="${user.technologyProfile.name}"></p>
+                <p class="title" th:text="${user.technologyProfile} ? ${user.technologyProfile.name} : ''"></p>
             </div>
         </div>
         <div class="card">
